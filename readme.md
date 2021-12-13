@@ -14,7 +14,7 @@ Sistema para calcular deserción escolar de estudiantes activos en instituciones
 * Graficas estadisticas de resultados.
 * Totalización de estudiantes registrados en el sistema.
 * Totalización de archivos disponibles.
-* actualización de datos de perfil de administrador.
+* Actualización de datos de perfil de administrador.
 
 ## <a href="https://www.youtube.com/watch?v=0ymLNJsQ8IQ" target="_blank">DEMO</a>
 
