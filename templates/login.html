@@ -1,0 +1,127 @@
+{%extends 'layout/app.html' %}
+{% block content %}
+<br><br>
+<div class="row d-flex">
+  <div class="col-lg-5">
+    <div class="card1 pb-5">
+      <div class="row px-3 justify-content-center mt-4 mb-5 border-line">
+        <!--<img src="https://i.imgur.com/uNGdWHi.png" class="image" />-->
+        <img src="{{url_for('static',filename='img/logo.png')}}" class="img-fluid" style="margin-top: 50px;">
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-5">
+    
+    <div class="card2 card border-0 px-4 py-5 mr-0">
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      <div class="alert alert-danger" role="alert">
+        {% for message in messages %}
+        {{message}}
+        {% endfor %}
+      </div>
+      {% endif %}
+      {% endwith %}
+     
+      <div class="row mb-4 px-3">
+        <h6 class="mb-0 mr-4 mt-2">
+          <a href="{{url_for('login')}}"><i class="fa fa-user"></i> Iniciar sesión </a>
+           | 
+           <a href="{{url_for('register')}}" class="text-danger"><i class="fa fa-registered"></i> Registrarse</a>
+        </h6>
+      </div>
+      <div class="row px-3 mb-4">
+        <div class="line"></div>
+        <small class="or text-center">Or</small>
+        <div class="line"></div>
+      </div>
+
+      <form name="initSesion" id="login-formt" method="POST">
+        <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+      <div class="row px-3">
+        <label class="mb-1">
+          <h6 class="mb-0 text-sm">Usuario(Email)</h6>
+        </label>
+        {{ 
+          form.email(
+          class="mb-4", 
+          placeholder="Email Address",
+          value=""
+          
+          ) 
+        }}
+        {% for error in form.email.errors %}
+        <p class="errors">{{error}}</p>
+        {% endfor %}
+       <!--<input
+          class="mb-4"
+          type="text"
+          name="email"
+          placeholder="Ingrese Usuario(email) Valido"
+        />--> 
+      </div>
+      <div class="row px-3">
+        <label class="mb-1">
+          
+          <h6 class="mb-0 text-sm">Contraseña(números)</h6>
+          
+        </label>
+        {{ 
+          form.password(
+          class="mb-4", 
+          placeholder="Ingrese contraseña",
+          value="",pattern="[0-9]*"
+          
+          ) 
+        }}
+        
+        {% for error in form.password.errors %}
+        <p class="errors">{{error}}</p>
+        {% endfor %}
+        
+
+        
+        
+
+       <!--<input
+          type="password"
+          name="password"
+          placeholder="Ingrese contraseña"
+        />--> 
+      </div>
+      <div class="row px-3 mb-4">
+        <div class="custom-control custom-checkbox custom-control-inline">
+          <input
+            id="chk1"
+            type="checkbox"
+            name="chk"
+            class="custom-control-input"
+          />
+          <label for="chk1" class="custom-control-label text-sm"
+            >Recordarme</label
+          >
+        </div>
+        <a href="#" class="ml-auto mb-0 text-sm"></a>
+      </div>
+      <div class="row mb-3 px-3">
+        <button type="submit" class="btn btn-blue text-center">
+          <i class="fa fa-user"></i>  Iniciar Sesión
+        </button>
+      </div>
+    </form>
+      <div class="row mb-4 px-3">
+        <small class="font-weight-bold"
+          >No tengo una cuenta? <a href="{{url_for('register')}}" class="text-danger">Regístrarse</a></small
+        >
+      </div>
+    </div>
+  </div>
+</div>
+<!--<div class="bg-blue py-4">
+              <div class="row px-3"> <small class="ml-4 ml-sm-5 mb-2">Copyright &copy; footer 2021.</small>
+                  <div class="social-contact ml-4 ml-sm-auto"> <span class="fa fa-facebook mr-4 text-sm"></span> <span class="fa fa-google-plus mr-4 text-sm"></span> <span class="fa fa-linkedin mr-4 text-sm"></span> <span class="fa fa-twitter mr-4 mr-sm-5 text-sm"></span> </div>
+              </div>
+          </div>
+          -->
+
+{% endblock %}

@@ -1,0 +1,71 @@
+{% macro sub_header_panel(count, count_delete, tgg, tge) %}
+<div class="row tile_count">
+    <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
+        <div class="left"></div>
+        <div class="right">
+            <span class="count_top"><i class="fa fa-file"></i> Archivos Disponibles</span>
+            <div class="count">{{count}}</div>
+            {% if count+count_delete > 0%}
+            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>{{ "%.2f"|format((count*100)/(count+count_delete)) }} %</i> Disponibles</span>
+            {% else%}
+            <span class="count_bottom"><i class="green">% no hay datos</i> </span>
+            {% endif%}
+        </div>
+    </div>
+    <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
+        <div class="left"></div>
+        <div class="right">
+            <span class="count_top"><i class="fa fa-trash"></i> Archivos Eliminados</span>
+            <div class="count">{{count_delete}}</div>
+            {% if count+count_delete > 0%}
+            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>{{ "%.2f"|format((count_delete*100)/(count+count_delete)) }}% </i> Eliminados</span>
+            {% else%}
+            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>% no hay datos</i> </span>
+
+            {% endif%}
+        </div>
+    </div>
+    <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
+        <div class="left"></div>
+        <div class="right">
+            <span class="count_top"><i class="fa fa-user"></i> Archivos Subidos</span>
+            <div class="count green">{{count+count_delete}}</div>
+            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>100% </i> Total archivos</span>
+        </div>
+    </div>
+    <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
+        <div class="left"></div>
+        <div class="right">
+            <span class="count_top"><i class="fa fa-user"></i>Total Estudiantes Hombre</span>
+            <div class="count">{{tgg[0]}}</div>
+            {% if count+count_delete > 0%}
+            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>{{ "%.2f"|format((tgg[0]*100)/(tgg[0]+tgg[1])) }}% </i> Hombres</span>
+            {% else%}
+            <span class="count_bottom"><i class="green">% no hay datos</i> </span>
+            {% endif%}
+            
+        </div>
+    </div>
+    <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
+        <div class="left"></div>
+        <div class="right">
+            <span class="count_top"><i class="fa fa-user"></i>Total Estudiantes Mujer</span>
+            <div class="count">{{tgg[1]}}</div>
+            {% if count+count_delete > 0%}
+            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>{{ "%.2f"|format((tgg[1]*100)/(tgg[0]+tgg[1])) }}%</i> Mujeres</span>
+            {% else%}
+            <span class="count_bottom"><i class="green">% no hay datos</i> </span>
+            {% endif%}
+            
+        </div>
+    </div>
+    <div class="animated flipInY col-md-2 col-sm-4 col-xs-4 tile_stats_count">
+        <div class="left"></div>
+        <div class="right">
+            <span class="count_top"><i class="fa fa-users"></i> Total Estudiantes</span>
+            <div class="count">{{tge}} </div>
+            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>100% </i> Estudiantes</span>
+        </div>
+    </div>
+</div>
+{% endmacro %}

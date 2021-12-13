@@ -1,0 +1,382 @@
+
+  {%extends 'layout/apppanel.html' %}
+  {% block content_panel %}
+  <div class="container body">
+    <div class="main_container">
+
+        <div class="col-md-3 left_col">
+            <div class="left_col scroll-view">
+                <!-- sidebar menu -->
+                {% from "section/menu_navigation_panel.html" import menu_panel %}
+                {{menu_panel(dataUser.institucion)}}
+                <!-- /sidebar menu -->
+                <!-- /menu footer buttons -->
+                {% from "section/footer_menu_panel.html" import footer_menu_panel %}
+                {{footer_menu_panel()}}
+                <!-- /menu footer buttons -->
+            </div>
+        </div>
+      <!--menu de navegacion header-->
+      {% from "section/header_panel.html" import header_panel %}
+        {{header_panel(dataUser.institucion)}}
+      <!--menu de navegacion header-->
+        <!-- page content -->
+        <div class="right_col" role="main">
+            <!-- top tiles -->
+            {% from "section/sub_header_panel.html" import sub_header_panel %}
+            {{sub_header_panel(count, count_delete, tgg, tge)}}
+            <!-- /top tiles -->
+
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="dashboard_graph">
+
+                        <div class="row x_title">
+                            <div class="col-md-6">
+                                <h3>Estadisticas Generales <small>Datos de gestión documental</small></h3>
+                            </div>
+                            <div class="col-md-6">
+                                
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+
+            </div>
+            <br />
+
+            <div class="row">
+                {% if count+count_delete > 0%}
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <div class="x_panel tile fixed_height_320 overflow_hidden">
+                        <div class="x_title">
+                            <h2>Estado Civil General</h2>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <table class="" style="width:100%">
+                                <tr>
+                                    <th style="width:37%;">
+                                        <p>Institución</p>
+                                        <p class=""></p>
+                                    </th>
+                                    <th>
+                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                            <p class="">Estado Civil</p>
+                                        </div>
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                            <p class="">Porcentaje</p>
+                                        </div>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <canvas id="canvas1" height="auto" width="140" style="margin: 15px 10px 10px 0"></canvas>
+                                    </td>
+                                    <td>
+                                        <table class="tile_info">
+                                            
+                                            <tr>
+                                                <td>
+                                                    <p>({{tgc[0]}}) <i class="fa fa-square blue"></i>Soltero  </p>
+                                                </td>
+                                                {%if tgc[0]+tgc[1] >0%}
+                                                <td>{{ "%.2f"|format((tgc[0]*100)/(tgc[0]+tgc[1])) }}%</td>
+                                                {%else%}
+                                                <td>No hay datos</td>
+                                                {%endif%}
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td>
+                                                    <p>({{tgc[1]}}) <i class="fa fa-square purple"></i>Conyugue </p>
+                                                </td>
+                                                {%if tgc[0]+tgc[1] >0%}
+                                                <td>{{ "%.2f"|format((tgc[1]*100)/(tgc[0]+tgc[1])) }}%</td>
+                                                {%else%}
+                                                <td>No hay datos</td>
+                                                {%endif%}
+                                            </tr>
+                                            
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <div class="x_panel tile fixed_height_320 overflow_hidden">
+                        <div class="x_title">
+                            <h2>Género Estudiantes General</h2>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <table class="" style="width:100%">
+                                <tr>
+                                    <th style="width:37%;">
+                                        <p>Institución</p>
+                                        <p class=""></p>
+                                    </th>
+                                    <th>
+                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                            <p class="">Género</p>
+                                        </div>
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                            <p class="">Porcentaje</p>
+                                        </div>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <canvas id="canvas1" height="auto" width="140" style="margin: 15px 10px 10px 0"></canvas>
+                                    </td>
+                                    <td>
+                                        <table class="tile_info">
+                                            
+                                            <tr>
+                                                <td>
+                                                    <p>({{tgg[0]}}) <i class="fa fa-square blue"></i>Hombre  </p>
+                                                </td>
+                                                {%if tgg[0]+tgg[1] >0%}
+                                                <td>{{ "%.2f"|format((tgg[0]*100)/(tgg[0]+tgg[1])) }}%</td>
+                                                {%else%}
+                                                <td>No hay datos</td>
+                                                {%endif%}
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td>
+                                                    <p>({{tgg[1]}}) <i class="fa fa-square purple"></i>Mujer </p>
+                                                </td>
+                                                {%if tgg[0]+tgg[1] > 0%}
+                                                <td>{{ "%.2f"|format((tgg[1]*100)/(tgg[0]+tgg[1])) }}%</td>
+                                                {%else%}
+                                                <td>No hay datos</td>
+                                                {%endif%}
+                                            </tr>
+                                            
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <div class="x_panel tile fixed_height_320 overflow_hidden">
+                        <div class="x_title">
+                            <h2>Padres Bachilleres General</h2>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <table class="" style="width:100%">
+                                <tr>
+                                    <th style="width:37%;">
+                                        <p>Institución</p>
+                                        <p class=""></p>
+                                    </th>
+                                    <th>
+                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                            <p class="">Padres Bachilleres</p>
+                                        </div>
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                            <p class="">Porcentaje</p>
+                                        </div>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <canvas id="canvas1" height="auto" width="140" style="margin: 15px 10px 10px 0"></canvas>
+                                    </td>
+                                    <td>
+                                        <table class="tile_info">
+                                            
+                                            <tr>
+                                                <td>
+                                                    <p>({{pb[0]}}) <i class="fa fa-square green"></i>Si  </p>
+                                                </td>
+                                                {%if pb[0]+pb[1] >0%}
+                                                <td>{{ "%.2f"|format((pb[0]*100)/(pb[0]+ps[1])) }}%</td>
+                                                {%else%}
+                                                <td>No hay datos</td>
+                                                {%endif%}
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td>
+                                                    <p>({{pb[1]}}) <i class="fa fa-square red"></i>NO </p>
+                                                </td>
+                                                {%if pb[0]+pb[1] >0%}
+                                                <td>{{ "%.2f"|format((pb[1]*100)/(ps[0]+pb[1])) }}%</td>
+                                                {%else%}
+                                                <td>No hay datos</td>
+                                                {%endif%}
+                                            </tr>
+                                            
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <div class="x_panel tile fixed_height_320 overflow_hidden">
+                        <div class="x_title">
+                            <h2>Pruebas Saber General</h2>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <table class="" style="width:100%">
+                                <tr>
+                                    <th style="width:37%;">
+                                        <p>Institución</p>
+                                        <p class=""></p>
+                                    </th>
+                                    <th>
+                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                            <p class="">Pruebas Saber</p>
+                                        </div>
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                            <p class="">Porcentaje</p>
+                                        </div>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <canvas id="canvas1" height="auto" width="140" style="margin: 15px 10px 10px 0"></canvas>
+                                    </td>
+                                    <td>
+                                        <table class="tile_info">
+                                            
+                                            <tr>
+                                                <td>
+                                                    <p>({{ps[0]}}) <i class="fa fa-square green"></i>Si  </p>
+                                                </td>
+                                                {%if ps[0]+ps[1] >0%}
+                                                <td>{{ "%.2f"|format((desert[0]*100)/(ps[0]+ps[1])) }}%</td>
+                                                {%else%}
+                                                <td>No hay datos</td>
+                                                {%endif%}
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td>
+                                                    <p>({{ps[1]}}) <i class="fa fa-square red"></i>NO </p>
+                                                </td>
+                                                {%if ps[0]+ps[1] >0%}
+                                                <td>{{ "%.2f"|format((ps[1]*100)/(ps[0]+ps[1])) }}%</td>
+                                                {%else%}
+                                                <td>No hay datos</td>
+                                                {%endif%}
+                                            </tr>
+                                            
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <div class="x_panel tile fixed_height_320 overflow_hidden">
+                        <div class="x_title">
+                            <h2>Desertores General</h2>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <table class="" style="width:100%">
+                                <tr>
+                                    <th style="width:37%;">
+                                        <p>Institución</p>
+                                        <p class=""></p>
+                                    </th>
+                                    <th>
+                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                            <p class="">Desertor</p>
+                                        </div>
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                            <p class="">Porcentaje</p>
+                                        </div>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <canvas id="canvas1" height="auto" width="140" style="margin: 15px 10px 10px 0"></canvas>
+                                    </td>
+                                    <td>
+                                        <table class="tile_info">
+                                            
+                                            <tr>
+                                                <td>
+                                                    <p>({{desert[0]}}) <i class="fa fa-square blue"></i>Si  </p>
+                                                </td>
+                                                {%if desert[0]+desert[1] >0%}
+                                                <td>{{ "%.2f"|format((desert[0]*100)/(desert[0]+desert[1])) }}%</td>
+                                                {%else%}
+                                                <td>No hay datos</td>
+                                                {%endif%}
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td>
+                                                    <p>({{desert[1]}}) <i class="fa fa-square red"></i>NO </p>
+                                                </td>
+                                                {%if desert[0]+desert[1] >0%}
+                                                <td>{{ "%.2f"|format((desert[1]*100)/(desert[0]+desert[1])) }}%</td>
+                                                {%else%}
+                                                <td>No hay datos</td>
+                                                {%endif%}
+                                            </tr>
+                                            
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                {%else%}
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="dashboard_graph">
+    
+                            <div class="row x_title">
+                                <div class="col-md-6">
+                                    <a href="{{url_for('files')}}" onclick="preload()" style="margin-bottom: -20px;" >
+                                        <button type="button" class="btn btn-primary">
+                                            <i class="fa fa-file-excel-o" style="font-size:24px"></i>
+                                             &nbsp;&nbsp; &nbsp;   DEBE SUBIR SU PRIMER ARCHIVO PARA VER ESTADÍSTICAS&nbsp; &nbsp; <i class="fa fa-sign-out"></i>
+                                            </button>
+                                    </a>
+                                </div>
+                                
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                {%endif%}
+               
+                
+           
+
+
+
+            </div>
+            
+<div id="custom_notifications" class="custom-notifications dsp_none">
+    <ul class="list-unstyled notifications clearfix" data-tabbed_notifications="notif-group">
+    </ul>
+    <div class="clearfix"></div>
+    <div id="notif-group" class="tabbed_notifications"></div>
+</div>
+<script src="{{url_for('static',filename='panel/js/bootstrap.min.js')}}"></script>
+<script type="text/javascript" src="{{url_for('static',filename='panel/js/moment.min.js')}}"></script>
+<script src="{{url_for('static',filename='panel/js/custom.js')}}"></script>
+{% endblock %}

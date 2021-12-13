@@ -1,0 +1,11 @@
+.req{
+    color:#928C8A ;
+    font-size: 12px;
+}
+
+select,option {
+  color: #928C8A;
+}
+.er-register{
+  color:red;  font-size: 12px;
+}

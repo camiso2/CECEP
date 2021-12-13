@@ -1,0 +1,199 @@
+{%extends 'layout/app.html' %} {% block content %}
+
+
+
+
+
+<div class="row d-flex">
+  <div class="col-lg-5">
+    <div class="card1 pb-5">
+      
+      <div class="row px-3 justify-content-center mt-4 mb-5 border-line">
+        <!--<img src="https://i.imgur.com/uNGdWHi.png" class="image" />-->
+        <img src="{{url_for('static',filename='img/logo.png')}}" class="img-fluid" style="margin-top: 50px;">
+        
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-7 ds">
+    <div class="card2 card border-0 px-0 py-3">
+      <h6 class="mb-0 mr-0 mt-0">
+        <a href="{{url_for('login')}}"><i class="fa fa-user"></i> Iniciar sesión</a>
+           | 
+           <a href="{{url_for('register')}}" class="text-danger"><i class="fa fa-registered"></i>  Registrarse</a>
+        <p class="req">(Todos los datos son requeridos)</p>
+      </h6>
+      {% with messages = get_flashed_messages() %} {% if messages %}
+      <div class="alert alert-danger" role="alert">
+        {% for message in messages %} {{message}} {% endfor %}
+      </div>
+      {% endif %} {% endwith %}
+
+      <div class="row px-3 mb-2">
+        <div class="line"></div>
+        <small class="or text-center"
+          ><i class="fa fa-address-card-o"></i
+        ></small>
+        <div class="line"></div>
+      </div>
+
+      <form name="initSesion" id="login-formt" method="POST">
+        <input type="hidden" name="csrf_token" value="{{csrf_token()}}" />
+
+        <div class="row">
+          <div class="col">
+            <label class="mb-1">
+              <h6 class="mb-0 text-sm">Institución</h6>
+            </label>
+
+            {{ form.institucion( class="form-control",
+            placeholder="Institución?", value=institucion ) }} {% for error in
+            form.institucion.errors %}
+            <p class="er-register">{{error}}</p>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <label class="mb-1">
+              <h6 class="mb-0 text-sm">Representante</h6>
+            </label>
+            {{ form.representante( class="form-control",
+            placeholder="Representante ?", value=representante ) }} {% for error
+            in form.representante.errors %}
+            <p class="er-register">{{error}}</p>
+            {% endfor %}
+          </div>
+          <div class="col">
+            <label class="mb-1">
+              <h6 class="mb-0 text-sm">E-mail</h6>
+            </label>
+            {{ form.email( class="form-control", placeholder="E-mail ?",
+            value=email ) }} {% for error in form.email.errors %}
+            <p class="er-register">{{error}}</p>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <label class="mb-1">
+              <h6 class="mb-0 text-sm">Departamento</h6>
+            </label>
+            {{ form.departamento( class="form-control",
+            placeholder="Departamento ?", value=departamento ) }} {% for error
+            in form.departamento.errors %}
+            <p class="er-register">{{error}}</p>
+            {% endfor %}
+          </div>
+          <div class="col">
+            <label class="mb-1">
+              <h6 class="mb-0 text-sm">Teléfono</h6>
+            </label>
+            {{ form.telefono( class="form-control", placeholder="Teléfono ?",
+            value=telefono, pattern="^\d{10}$" ) }} {% for error in
+            form.telefono.errors %}
+            <p class="er-register">{{error}}</p>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <label class="mb-1">
+              <h6 class="mb-0 text-sm">Ciudad</h6>
+            </label>
+            {{ form.ciudad( class="form-control", placeholder="Ciudad ?",
+            value=ciudad, ) }} {% for error in form.ciudad.errors %}
+            <p class="er-register">{{error}}</p>
+            {% endfor %}
+          </div>
+          <div class="col">
+            <label class="mb-1">
+              <h6 class="mb-0 text-sm">Dirección</h6>
+            </label>
+            {{ form.direccion( class="form-control", placeholder="Dirección ?",
+            value=direccion, ) }} {% for error in form.direccion.errors %}
+            <p class="er-register">{{error}}</p>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <label class="mb-1">
+              <h6 class="mb-0 text-sm">Tipo de Colegio</h6>
+            </label>
+
+            {{ form.colegio( class="form-control", placeholder="Colegio ",
+            value=ciudad, ) }} {% for error in form.colegio.errors %}
+            <p class="er-register">{{error}}</p>
+            {% endfor %}
+
+            <!--<input type="text" class="form-control" placeholder="First name">-->
+          </div>
+          <div class="col">
+            <label class="mb-1">
+              <h6 class="mb-0 text-sm">Tipo de Alumnos</h6>
+            </label>
+            {{ form.alumnos( class="form-control", placeholder="Alumnos ",
+            value=ciudad, ) }} {% for error in form.alumnos.errors %}
+            <p class="er-register">{{error}}</p>
+            {% endfor %}
+            <!--<input type="text" class="form-control" placeholder="Last name">-->
+          </div>
+        </div>
+
+        <div class="row px-3 mb-2 mt-4">
+          <div class="line"></div>
+          <small class="or text-center"
+            ><i class="fa fa-address-card-o"></i
+          ></small>
+          <div class="line"></div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <label class="mb-1 mt-1">
+              <h6 class="mb-0 text-sm">contraseña(números)</h6>
+            </label>
+            {{ form.password( class="form-control", placeholder="contraseña ?",
+            value="",pattern="[0-9]*") }} {% for error in form.password.errors %}
+            <p class="er-register">{{error}}</p>
+            {% endfor %}
+          </div>
+          <div class="col">
+            <label class="mb-1 mt-1">
+              <h6 class="mb-0 text-sm">Confirma Contraseña(números)</h6>
+            </label>
+            {{ form.confirmPassword( class="form-control",
+            placeholder="confirmar contraseña ?", value="",pattern="[0-9]*") }} {% for error in
+            form.confirmPassword.errors %}
+            <p class="er-register">{{error}}</p>
+            {% endfor %}
+          </div>
+          <h4>{{error_passwor_confirm}}</h4>
+        </div>
+
+        <div class="row mb-3 px-3 mt-3">
+          <button type="submit" class="btn btn-blue btn-blocktext-center">
+            <i class="fa fa-user"></i> Regístrar Usuario
+          </button>
+          <small class="font-weight-bold  px-3 mt-3"
+          >Quiero Iniciar sesión ?
+          <a href="{{url_for('login')}}" class="text-danger"
+            >Iniciar sesión</a
+          ></small
+        >
+        </div>
+      </form>
+      <div class="row mb-6 px-3" style="margin-bottom: 100px;;">
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

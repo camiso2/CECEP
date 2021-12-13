@@ -1,0 +1,63 @@
+{% macro menu_panel(institucion) %}
+<div class="navbar nav_title" style="border: 0; z-index: 9999;">
+    <a href="{{url_for('welcome')}}" class="site_title"><i class="fa fa-graduation-cap"></i> <span>CECEP</span></a>
+</div>
+<div class="clearfix"></div>
+ <!-- menu prile quick info -->
+ <div class="profile">
+    <div class="profile_pic">
+        <img src="{{url_for('static',filename='panel/images/img.jpg')}}" alt="..." class="img-circle profile_img">
+        
+        
+    </div>
+    <div class="profile_info">
+        <span>Bienvenido,</span>
+        <h2>{{institucion}}</h2>
+    </div>
+</div>
+<!-- /menu prile quick info -->
+
+<br />
+<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+    <div class="menu_section">
+        <h3>-<hr></h3>
+       
+          <div class="menu_section">
+              <ul class="nav side-menu " >
+                  <li ><a href="{{url_for('welcome')}}" onclick="preload()" style="margin-bottom: -20px;" >
+                    <i class="fa fa-home " style="font-size: 20px;"></i>
+                    <span class="text-nav2" >&nbsp;&nbsp;Dashboard </span> <h4></h4> </a> 
+                  </li>
+              </ul>
+          </div>
+        
+        <div class="menu_section">
+            <ul class="nav side-menu " >
+                <li ><a href="{{url_for('files')}}" onclick="preload()" style="margin-bottom: -20px;" >
+                  <i class="fa fa-upload " style="font-size: 20px;"></i>
+                  <span class="text-nav2" >&nbsp;&nbsp;Subir Archivos </span> <h4></h4> </a> 
+                </li>
+            </ul>
+        </div>
+
+        <div class="menu_section">
+            <ul class="nav side-menu " >
+                <li ><a href="{{url_for('edit_register')}}" onclick="preload()" style="margin-bottom: -20px;" >
+                  <i class="fa fa-user " style="font-size: 20px;"></i>
+                  <span class="text-nav2" >&nbsp;&nbsp;Perfíl </span> <h4></h4> </a> 
+                </li>
+            </ul>
+        </div>
+      
+        <!--<ul class="nav side-menu">
+            <li>
+                <a><i class="fa fa-home"></i> Evaluación <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu" style="display: none">
+                    <li><a href="">Perfíl</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>-->
+    </div>
+</div>
+{% endmacro %}

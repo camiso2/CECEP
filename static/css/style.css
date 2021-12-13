@@ -1,0 +1,36 @@
+
+body{
+    min-height: 100%;
+    top: 0;
+    margin:0;
+    padding:0;
+}
+
+footer,
+section#main,
+body{
+    width: 100%;
+    position: absolute;
+}
+
+section#main{
+    min-height: 100%;
+}
+
+footer{
+    bottom: 0;
+}
+
+p{
+    color: red;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+ 
+
+
+
+
+

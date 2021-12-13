@@ -1,0 +1,238 @@
+{%extends 'layout/apppanel.html' %} {% block content_panel %}
+<div class="container body">
+  <div class="main_container">
+    <div class="col-md-3 left_col">
+      <div class="left_col scroll-view">
+        <!-- sidebar menu -->
+        {% from "section/menu_navigation_panel.html" import menu_panel %}
+        {{menu_panel(dataUser.institucion)}}
+        <!-- /sidebar menu -->
+        <!-- /menu footer buttons -->
+        {% from "section/footer_menu_panel.html" import footer_menu_panel %}
+        {{footer_menu_panel()}}
+        <!-- /menu footer buttons -->
+      </div>
+    </div>
+    <!--menu de navegacion header-->
+    {% from "section/header_panel.html" import header_panel %}
+    {{header_panel(dataUser.institucion)}}
+    <!--menu de navegacion header-->
+    <!-- page content -->
+    <div class="right_col" role="main">
+      <!-- top tiles -->
+
+      {% from "section/sub_header_panel.html" import sub_header_panel %}
+      {{sub_header_panel(count, count_delete,tgg, tge)}}
+      <!-- /top tiles -->
+
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="dashboard_graph">
+            <div class="row x_title">
+              <div class="col-md-9">
+                <h3>
+                  Subir Archivos Para Evaluación 
+                  <small>El archivo requerido es (.xls, .xlsx) -> EXCEL</small>
+                  {% with messages = get_flashed_messages() %} {% if messages %}
+                  {% for message in messages %}
+                  <h6 class="count green">{{message}}</h6>
+                  {% endfor %} {% endif %} {% endwith %}
+                </h3>
+              </div>
+                </div>
+                <form id="login-edit" method="POST" action="{{ url_for('files') }}" enctype="multipart/form-data" >
+                  <input
+                  type="hidden"
+                  name="csrf_token"
+                  value="{{csrf_token()}}"
+                />
+                
+                  <script type="text/javascript">
+                    function fileValidation() {
+                      var filesObj = file.files;
+                      var filesArray = Object.keys(filesObj).map(function (key) {
+                        return filesObj[key];
+                      });
+                      if (filesObj.length > 1) {
+                        Swal.fire("EL máximo permitido son 1 Archivo !");
+                        document.getElementById("file").value = "";
+                      } else {
+                        filesArray.forEach(function (file) {
+                          if (file.size > 60000000) {
+                            //alert(`El archivo ${file.name} tiene un tamaño (${file.size}) mayor del permitido`);
+                            Swal.fire("hay un archivo que tiene mas de 10MB");
+                            document.getElementById("file").value = "";
+                          } else {
+                            var fileInput = document.getElementById("file");
+                            var filePath = fileInput.value;
+                            var required_file = "";
+                            var allowedExtensions =
+                              /(.xls|.xlsx|.XLS|.XLSX)$/i;
+                            required_file = " (.xls, .xlsx, .XLS, .XLSX)->EXCEL";
+                            if (!allowedExtensions.exec(filePath)) {
+                              Swal.fire(
+                                "Solo se pueden subir los archivos requeridos :" +
+                                required_file
+                              );
+                              fileInput.value = "";
+                              return false;
+                            } else {
+                              if (fileInput.files && fileInput.files[0]) {
+                                var reader = new FileReader();
+                                reader.onload = function (e) { };
+                                reader.readAsDataURL(fileInput.files[0]);
+                              }
+                            }
+                          }
+                        });
+                      }
+                    }
+                  </script>
+                  <div class="form-group col-md-4">
+                    <div class="row">
+                      <div class="col mrg">
+                        <label class="mb-1 inp-l">
+                          <h6 class="mb-0 text-sm"><b>Grupo</b> (ejemplo : 11B, test escolar, etc)</h6>
+                        </label>
+                        <input type="text" name="grupo" class="form-control inp-g" placeholder="grupo ?"
+                          value="" required maxlength="80" minlength="1" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-8">
+                    <div class="row">
+                      <div class="col mrg">
+                        <label class="mb-1 ">
+                          <h6 class="mb-0 text-sm"><b>Comentarios</b> (ejemplo : 1 test de evalucion CECEP de prueba)
+                          </h6>
+                        </label>
+                        <input type="text" name="comentario" class="form-control" placeholder="comentario ?"
+                          value=""  maxlength="150" style="width: 99%;" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class=" col-md-12">
+                    <div class="fo-top" id="file_img">
+                      <div class="form-group">
+                       
+                        <div class="input-group" >
+                          <span class="input-group-addon">seleccione el archivo que desea agregar a la
+                            carpeta <b>(Maximo 60 MB ) </b></span>
+                          <input type="file" name="file" id="file" onchange="return fileValidation();"
+                            class="form-control" id="focusedinput" value="" required="true" />
+                          <!-- Image preview -->
+                          <div id="imagePreview"></div>
+                          <span class="input-group-addon"></span>
+                        </div>
+                        <div class="col-sm-4 hp">
+                          <p class="help-block">(.xls, xlsx) -> EXCEL</p>
+                        </div>
+                        <div class="clearfix"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-12">
+                    <button type="submit" class="btn btn-success btn-blocktext-center">
+                      <i class="fa fa-file"></i> Subir Archivo
+                    </button>
+                  </div>
+                </form>
+                <hr>
+                {% if count > 0 %}
+                <table id="buscar_employees" class="table table-striped responsive-utilities jambo_table bulk_action" >
+                  <thead>
+                      <tr class="headings">
+                          <th style="width: 5%;text-align: center;">
+                              <i class="fa fa-registered" aria-hidden="true" ></i>&nbsp;&nbsp;
+                          </th>
+                          <th class="column-title" style="width: 5%;">Archivo </th>
+                          <th class="column-title" style="width: 5%;">Grupo </th>
+                          <th class="column-title" style="width: 25%;">comentario </th>
+                          <th class="column-title " style="width: 3%;font-size: 18px;"><span class="nobr"><i class="fa fa-trash"></i></span>
+                            <th class="column-title" style="width: 3%;">Evaluar </th>
+                            <th class="column-title" style="width: 8%;">creación </th>
+                          </th>
+
+                      </tr>
+                  </thead>
+                {% for files in files %}
+                {% if files.state == "1" %}
+                <tr class="even pointer" >
+                  <td class="a-center "><a href=""><img src="{{url_for('static',filename='img/excel.jpg')}}" class="img-resposive" width="40px;" id="silverfox" ></a>
+                  </td>
+                  
+                  <td class=" cv">{{ files.archivo.split('_')[0] }} </td>
+                  <td class="cv" >{{ files.grupo }}</td>
+                  <td class=" cv">{{ files.comentario }} </td>
+                  <td class="cv">
+
+                    <form class="form-horizontal" method="POST" action="{{ url_for('delete_file') }}"  onsubmit="return preload()" autocomplete="off">
+                      <input
+                      type="hidden"
+                      name="csrf_token"
+                      value="{{csrf_token()}}"
+                    />
+                     <input type="hidden" name="id_file" value="{{ files.id }}">
+                     <button type="submit" class="btn btn-danger btn-xs" onclick="
+                     return confirm('Esta SEGURO que desea borrar el Archivo de su lista?')" 
+                     ><i class="fa fa-trash"></i></button>
+
+                 </form>
+             </td>    
+                  <td class="cv">
+                    <form class="form-horizontal" method="POST" action="{{ url_for('evaluation') }}"  onsubmit="return preload()" autocomplete="off">
+                      <input
+                      type="hidden"
+                      name="csrf_token"
+                      value="{{csrf_token()}}"
+                    />
+                     <input type="hidden" name="id_file" value="{{ files.id }}">
+                     <button type="submit" class="btn btn-success btn-xs" 
+                     ><i class="fa fa-cogs"></i> Evaluar Archivo</button>
+
+                 </form>
+
+
+                  
+                  
+                  
+                  
+                  </td>
+                  <td class="cv ">{{ files.created_at }}</td>      
+          </tr>
+                {% endif %}
+                {% endfor %}
+              </tbody>
+            </table>
+            {% else %}
+            <h4>no tiene archivos</h4>
+
+            {% endif %}
+                <div class="clearfix"></div>
+              </div>
+            </div>
+          </div>
+          <br />
+
+          
+          
+          
+              
+
+
+          <div class="row">
+            <div id="custom_notifications" class="custom-notifications dsp_none">
+              <ul class="list-unstyled notifications clearfix" data-tabbed_notifications="notif-group"></ul>
+              <div class="clearfix"></div>
+              <div id="notif-group" class="tabbed_notifications"></div>
+            </div>
+            <script src="{{url_for('static',filename='panel/js/bootstrap.min.js')}}"></script>
+            <script type="text/javascript" src="{{url_for('static',filename='panel/js/moment.min.js')}}"></script>
+            <script src="{{url_for('static',filename='panel/js/custom.js')}}"></script>
+            {% endblock %}
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+   

@@ -1,0 +1,215 @@
+{%extends 'layout/apppanel.html' %} {% block content_panel %}
+<div class="container body">
+  <div class="main_container">
+    <div class="col-md-3 left_col">
+      <div class="left_col scroll-view">
+        <!-- sidebar menu -->
+        {% from "section/menu_navigation_panel.html" import menu_panel %}
+        {{menu_panel(dataUser.institucion)}}
+        <!-- /sidebar menu -->
+        <!-- /menu footer buttons -->
+        {% from "section/footer_menu_panel.html" import footer_menu_panel %}
+        {{footer_menu_panel()}}
+        <!-- /menu footer buttons -->
+      </div>
+    </div>
+    <!--menu de navegacion header-->
+    {% from "section/header_panel.html" import header_panel %}
+    {{header_panel(dataUser.institucion)}}
+    <!--menu de navegacion header-->
+    <!-- page content -->
+    <div class="right_col" role="main">
+      <!-- top tiles -->
+
+      {% from "section/sub_header_panel.html" import sub_header_panel %}
+      {{sub_header_panel(count, count_delete, tgg, tge)}}
+      <!-- /top tiles -->
+
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="dashboard_graph">
+            <div class="row x_title">
+              <div class="col-md-9">
+                <h3>
+                  Evaluación de Archivo
+                  <small>El archivo requerido es (.xls, .xlsx) -> EXCEL</small>
+                  {% with messages = get_flashed_messages() %} {% if messages %}
+                  {% for message in messages %}
+                  <h6 class="count green">{{message}}</h6>
+                  {% endfor %} {% endif %} {% endwith %}
+                </h3>
+              </div>
+            </div>
+
+            
+
+            <table id="buscar_employees" class="table table-striped responsive-utilities jambo_table bulk_action">
+              <thead>
+             
+              <th class="column-title" style="width: 5%;">Total<div class="count green">100 %</div> </th>
+              <th class="column-title" style="width: 5%;">
+                Mujer 
+                <span class="count_bottom">
+                  <div class="count green">{{ "%.2f"|format((genero[1]*100)/(genero[0]+genero[1])) }} %</div>
+                </span>
+              </th>
+              <th class="column-title" style="width: 5%;">
+                Hombre
+                <span class="count_bottom">
+                  <div class="count green">{{ "%.2f"|format((genero[0]*100)/(genero[0]+genero[1])) }} %</div>
+                </span>
+               </th>
+               <th class="column-title" style="width: 10%;">Estado Civil (soltero)
+                <span class="count_bottom">
+                  <div class="count green">{{ "%.2f"|format((ec[0]*100)/(ec[1]+ec[0])) }} % 
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                     {{ "%.2f"|format((ec[1]*100)/(ec[0]+ec[1])) }} %</div>
+                </span>
+              
+              </th>
+               <th class="column-title" style="width: 10%;">Padres Bachilleres
+                <span class="count_bottom">
+                  <div class="count green">{{ "%.2f"|format((pb[0]*100)/(pb[1]+pb[0])) }} % 
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                     {{ "%.2f"|format((pb[1]*100)/(pb[0]+pb[1])) }} %</div>
+                </span>
+              
+              </th>
+              <th class="column-title" style="width: 10%;">Pruebas Saber
+                <span class="count_bottom">
+                  <div class="count green">{{ "%.2f"|format((ps[0]*100)/(ps[1]+ps[0])) }} % 
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                     {{ "%.2f"|format((ps[1]*100)/(ps[0]+ps[1])) }} %</div>
+                </span>
+              
+              </th>
+              <th class="column-title" style="width: 10%;">Desertores
+                <span class="count_bottom">
+                  <div class="count green">{{ "%.2f"|format((desertores[0]*100)/(desertores[1]+desertores[0])) }} % 
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                     {{ "%.2f"|format((desertores[1]*100)/(desertores[0]+desertores[1])) }} %</div>
+                </span>
+              
+              </th>
+              <th class="column-title" style="width: 10%;">
+                Posible Deserción
+                <span class="count_bottom">
+                <div class="count red">{{ "%.2f"|format((c1*100)/(c1+c0)) }} %</div>
+              </span>
+              </th>
+              <th class="column-title" style="width: 10%;">
+                NO Desertará
+                <div class="count green">{{ "%.2f"|format((c0*100)/(c1+c0)) }} %</div>
+                 </th>
+              </th>
+            </tr>
+          </thead>
+              <tr>
+                <td class="cv ">{{total_estudiantes}}</td>
+              <td class="cv ">{{genero[1]}}</td>
+              <td class="cv ">{{genero[0]}}</td>
+              <td class="cv "><b>SI</b> = {{ec[0]}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; <b>NO</b>  = {{ec[1]}}</td>
+              <td class="cv "><b>SI</b> = {{pb[0]}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; <b>NO</b>  = {{pb[1]}}</td>
+              <td class="cv "><b>SI</b> = {{ps[0]}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; <b>NO</b>  = {{ps[1]}}</td>
+              <td class="cv "><b>SI</b> = {{desertores[0]}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; <b>NO</b>  = {{desertores[1]}}</td>
+              <td class="cv ">{{c1}}</td>
+              <td class="cv ">{{c0}}</td>
+            </tr>
+            </table>
+            {% if count > 0 %}
+            <table id="buscar_employees" class="table table-striped responsive-utilities jambo_table bulk_action">
+              <thead>
+                <tr class="headings">
+                  <th style="width: 5%;text-align: center;">
+                    <i class="fa fa-users" aria-hidden="true"></i>&nbsp;&nbsp;
+                  </th>
+                  <th class="column-title" style="width: 5%;">Genero </th>
+                  <th class="column-title" style="width: 5%;">Edad </th>
+                  <th class="column-title" style="width: 8%;">Estado civil </th>
+                  <th class="column-title " style="width:10%;">Comuna</th>
+                  <th class="column-title" style="width: 8%;">Ingreso </th>
+                  <th class="column-title" style="width: 8%;">Padre Bachiller </th>
+                  <th class="column-title" style="width: 8%;">Pruebas Saber </th>
+                  <th class="column-title" style="width: 8%;">Asign perdidas </th>
+                  <th class="column-title" style="width: 8%;">Desertores </th>
+                  <th class="column-title" style="width: 8%;">Evaluación </th>
+                  </th>
+                </tr>
+              </thead>
+              
+              {% for files in excel_new %}
+             
+              {%if files[9] == 0 or files[9] == "0" %}
+              <tr class="even pointer" style="background-color: rgb(243, 243, 253);">
+                <td class="a-center ">
+                {%if files[0]=="hombre" or files[0]=="Hombre" %}
+                  <img src="{{url_for('static',filename='img/hombre.jpg')}}"
+                      class="img-resposive img-circle" width="40px;" id="silverfox">
+                {%endif%}
+                {%if files[0]=="mujer" or files[0]=="Mujer" %}
+                  <img src="{{url_for('static',filename='img/mujer.jpg')}}"
+                      class="img-resposive img-circle" width="40px;" id="silverfox">
+                {%endif%}
+              </td>
+                <td class=" cv">{{ files[0] }} </td>
+                <td class="cv">{{ files[1] }}</td>
+                <td class=" cv">{{ files[2] }} </td>
+                <td class="cv">{{files[3]}} </td>
+                <td class="cv">{{files[4]}}</td>
+                <td class="cv ">{{files[5]}}</td>
+                <td class="cv ">{{files[6]}}</td>
+                <td class="cv ">{{files[7]}}</td>
+                <td class="cv ">{{files[8]}}</td>
+                <td class="cv "> <div class="count green">OK</div></td>
+              </tr>
+              {%else%}
+              <tr class="even pointer" style="background-color: rgb(248, 220, 220);">
+                <td class="a-center ">
+                {%if files[0]=="hombre" or files[0]=="Hombre" %}
+                  <img src="{{url_for('static',filename='img/hombre.jpg')}}"
+                      class="img-resposive img-circle" width="40px;" id="silverfox">
+                {%endif%}
+                {%if files[0]=="mujer" or files[0]=="Mujer" %}
+                  <img src="{{url_for('static',filename='img/mujer.jpg')}}"
+                      class="img-resposive img-circle" width="40px;" id="silverfox">
+                {%endif%}
+              </td>
+                <td class=" cv">{{ files[0] }} </td>
+                <td class="cv">{{ files[1] }}</td>
+                <td class=" cv">{{ files[2] }} </td>
+                <td class="cv">{{files[3]}} </td>
+                <td class="cv">{{files[4]}}</td>
+                <td class="cv ">{{files[5]}}</td>
+                <td class="cv ">{{files[6]}}</td>
+                <td class="cv ">{{files[7]}}</td>
+                <td class="cv ">{{files[8]}}</td>
+                <td class="cv "> <div class="count red"><b>Posible Deserción</b></div></td>
+              </tr>
+              {%endif%}
+              {% endfor %}
+              </tbody>
+            </table>
+            {% else %}
+            <h4>no tiene archivos</h4>
+            {% endif %}
+            <hr>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+      </div>
+      <br />
+      <div class="row">
+        <div id="custom_notifications" class="custom-notifications dsp_none">
+          <ul class="list-unstyled notifications clearfix" data-tabbed_notifications="notif-group"></ul>
+          <div class="clearfix"></div>
+          <div id="notif-group" class="tabbed_notifications"></div>
+        </div>
+        <script src="{{url_for('static',filename='panel/js/bootstrap.min.js')}}"></script>
+        <script type="text/javascript" src="{{url_for('static',filename='panel/js/moment.min.js')}}"></script>
+        <script src="{{url_for('static',filename='panel/js/custom.js')}}"></script>
+        {% endblock %}
+      </div>
+    </div>
+  </div>
+</div>
+</div>

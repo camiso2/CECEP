@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/style.css')}}"/>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/login.css')}}"/>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/register.css')}}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
+
+    <title>base plantilla</title>
+</head>
+<body>
+    
+<nav class="navbar navbar-expand-lg navbar-light bg-light" >
+    <a class="navbar-brand text-muted" href="#"
+      ><b>
+        {% from "section/appname.html" import show_list_h %}
+        {{show_list_h("Deserción Escolar en el CECEP")}}</b
+      ></a
+    >
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </nav>
+    
+    {% block content %}
+    {% endblock%}
+
+    <!-- Footer -->
+<footer class="page-footer font-small blue" style="background-color: rgb(237, 240, 245);margin:0 !important;position: absolute;">
+
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3 text-muted">&copy;todos los derechos reservados {% from "section/appname.html" import show_list_h %}
+    {{show_list_h("Deserción Escolar en el CECEP")}}  | Diseño y Desarrollo 
+    
+  </div>
+  <!-- Copyright -->
+
+</footer>
+
+
+   
+
+    <!--<img src="{{url_for('static',filename='img/familia.jpg')}}">-->
+
+    <script type="text/javascript" src="{{url_for('static',filename='js/jquery.js')}}"></script>
+</body>
+</html>

@@ -1,0 +1,441 @@
+{%extends 'layout/apppanel.html' %} {% block content_panel %}
+<div class="container body">
+  <div class="main_container">
+    <div class="col-md-3 left_col">
+      <div class="left_col scroll-view">
+        <!-- sidebar menu -->
+        {% from "section/menu_navigation_panel.html" import menu_panel %}
+        {{menu_panel(dataUser.institucion)}}
+        <!-- /sidebar menu -->
+        <!-- /menu footer buttons -->
+        {% from "section/footer_menu_panel.html" import footer_menu_panel %}
+        {{footer_menu_panel()}}
+        <!-- /menu footer buttons -->
+      </div>
+    </div>
+    <!--menu de navegacion header-->
+    {% from "section/header_panel.html" import header_panel %}
+    {{header_panel(dataUser.institucion)}}
+    <!--menu de navegacion header-->
+    <!-- page content -->
+    <div class="right_col" role="main">
+      <!-- top tiles -->
+      {% from "section/sub_header_panel.html" import sub_header_panel %}
+      {{sub_header_panel(count, count_delete, tgg, tge)}}
+      <!-- /top tiles -->
+
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="dashboard_graph">
+            <div class="row x_title">
+              <div class="col-md-6">
+                <h3>
+                  Actualizar datos de registro
+                  <small>Cambiar contraseña / Actualizar datos</small>
+                  {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages %}
+                        <h6 class="count green">{{message}}</h6>
+                        {% endfor %}
+                    {% endif %}
+                   {% endwith %}
+                </h3>
+              </div>
+              <div class="col-md-6"></div>
+            </div>
+
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="container">
+                <ul class="nav nav-tabs">
+                  <li class="nav-item">
+                    <a
+                      class="nav-link active"
+                      id="v1"
+                      onclick="version(this)"
+                      style="
+                        background-color: #0275d8;
+                        color: white;
+                        cursor: pointer;
+                      "
+                      >Actualizar Datos</a
+                    >
+                  </li>
+                  <li class="nav-item">
+                    <a
+                      class="nav-link"
+                      id="v2"
+                      onclick="version(this)"
+                      style="cursor: pointer"
+                      >Modificar contraseña</a
+                    >
+                  </li>
+                </ul>
+                <script type="text/javascript">
+                  function version(_this) {
+                    if (_this.id == "v1") {
+                      document.getElementById("v1").style.backgroundColor =
+                        "#0275d8";
+                      document.getElementById("v1").style.color = "white";
+                      document.getElementById("v2").style.backgroundColor =
+                        "white";
+                      document.getElementById("v2").style.color = "black";
+                      document.getElementById("version1").style.display =
+                        "block";
+                      document.getElementById("version2").style.display =
+                        "none";
+                    }
+                    if (_this.id == "v2") {
+                      document.getElementById("v2").style.backgroundColor =
+                        "#0275d8";
+                      document.getElementById("v2").style.color = "white";
+                      document.getElementById("v1").style.backgroundColor =
+                        "white";
+                      document.getElementById("v1").style.color = "black";
+                      document.getElementById("version1").style.display =
+                        "none";
+                      document.getElementById("version2").style.display =
+                        "block";
+                    }
+                  }
+                </script>
+              </div>
+              {% with messages = get_flashed_messages() %} {% if messages %}
+                  {% for message in messages %}
+                  <h6 class="count red">{{message}}</h6>
+                  {% endfor %} {% endif %} {% endwith %}
+              
+
+              <section
+                class="w3l-top-header-conten"
+                id="version2"
+                style="display: none"
+              >
+                <div class="hny-top-menu">
+                  <div class="top-hd">
+                    <div class="container">
+                      <form id="login-edit" method="POST" action="{{ url_for('chage_password') }}" >
+                        <input
+                        type="hidden"
+                        name="csrf_token"
+                        value="{{csrf_token()}}"
+                      />
+                      <input
+                          type="hidden"
+                          name="updateRegister"
+                          value="updatePass"
+                        />
+                        <div class="row">
+                          <div class="col mrg">
+                            <label class="mb-1 mt-1">
+                              <h6 class="mb-0 text-sm">contraseña actual</h6>
+                            </label>
+                            <input
+                            type="password"
+                            name="currentPassword"
+                            class="form-control "
+                            placeholder="contraseña actual solo se permiten números"
+                            value=""
+                            required
+                            maxlength="80"
+                            minlength="4"
+                            
+                          />
+                          </div>
+                          <div class="col mrg">
+                            <label class="mb-1 mt-1">
+                              <h6 class="mb-0 text-sm">Nueva contraseña</h6>
+                            </label>
+                            <input
+                            type="password"
+                            name="newPassword"
+                            class="form-control "
+                            placeholder="nueva contraseña solo se permiten números"
+                            value=""
+                            required
+                            maxlength="80"
+                            minlength="6"
+                            pattern="[0-9]*"
+                          />
+                          </div>
+                          <div class="col mrg">
+                            <label class="mb-1 mt-1">
+                              <h6 class="mb-0 text-sm">Confirmar Contraseña</h6>
+                            </label>
+                            <input
+                            type="password"
+                            name="confirmNewPassword"
+                            class="form-control "
+                            placeholder="confirmar contraseña solo se permiten números"
+                            value=""
+                            required
+                            maxlength="80"
+                            minlength="6"
+                            pattern="[0-9]*"
+                          />
+                          </div>
+                          <h4>{{error_passwor_confirm}}</h4>
+                        </div>
+                        <div class="row px-3 mb-2 mt-4">
+                            <div class="line"></div>
+                            <small class="or text-center"
+                              ><i class="fa fa-address-card-o"></i
+                            ></small>
+                            <div class="line"></div>
+                          </div>
+  
+                          <div class="row mb-3 px-3 mt-3">
+                            <button
+                              type="submit"
+                              class="btn btn-success btn-blocktext-center"
+                            >
+                              <i class="fa fa-user"></i> Modificar contraseña de
+                              Usuario
+                            </button>
+                          </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <section class="w3l-top-header-conten" id="version1">
+                <div class="hny-top-menu">
+                  <div class="top-hd">
+                    <div class="container">
+                      <form
+                        id="login-formt"
+                        action="{{ url_for('edit_register') }}"
+                        method="POST"
+                      >
+                        <input
+                          type="hidden"
+                          name="csrf_token"
+                          value="{{csrf_token()}}"
+                        />
+
+                        <input
+                          type="hidden"
+                          name="id"
+                          value="{{dataUser.id}}"
+                        /> 
+                        <input
+                          type="hidden"
+                          name="updateRegister"
+                          value="updateRegister"
+                        />
+
+                        <div class="row">
+                            <div class="col mrg">
+                            <label class="mb-1 ">
+                              <h6 class="mb-0 text-sm">Institución</h6>
+                            </label>
+                            <input
+                            type="text"
+                            name="institucion"
+                            class="form-control"
+                            placeholder="institución ?"
+                            value="{{dataUser.institucion}}"
+                            required
+                            maxlength="80"
+                            minlength="4"
+                          />
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col mrg">
+                            <label class="mb-0">
+                              <h6 class="mb-0 text-sm">Representante</h6>
+                            </label>
+                            <input
+                            type="text"
+                            name="representante"
+                            class="form-control "
+                            placeholder="representante ?"
+                            value="{{dataUser.representante}}"
+                            required
+                            maxlength="80"
+                            minlength="4"
+                          />
+                          </div>
+                          <div class="col mrg">
+                            <label class="mb-1">
+                              <h6 class="mb-0 text-sm">E-mail</h6>
+                            </label>
+                            <input
+                            type="email"
+                            name="email"
+                            class="form-control"
+                            placeholder="email ?"
+                            value="{{dataUser.email}}"
+                            required
+                            maxlength="60"
+                            minlength="4"
+
+                          />
+                          </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col mrg">
+                            <label class="mb-1">
+                              <h6 class="mb-0 text-sm">Departamento</h6>
+                            </label>
+                            <input
+                              type="text"
+                              name="departamento"
+                              class="form-control"
+                              placeholder="departamento ?"
+                              value="{{dataUser.departamento}}"
+                              required
+                              maxlength="30"
+                              minlength="4"
+                            />
+                          </div>
+                          <div class="col">
+                            <div class="col mrg">
+                                <label class="mb-1">
+                              <h6 class="mb-0 text-sm">Teléfono</h6>
+                            </label>
+                            <input
+                              type="number"
+                              name="telefono"
+                              class="form-control"
+                              placeholder="Teléfono ?"
+                              pattern="\x2b[0-9]+"
+                              value="{{dataUser.telefono}}"
+                              required
+                              maxlength="15"
+                              minlength="10"
+                              onkeyup="if(parseInt(this.value)>100000000000){  
+                                Swal.fire('no puede exceder la cantidad de digitos !') ; return false; }"
+                            />
+                          </div>
+                        </div>
+
+                        
+                            <div class="col mrg">
+                            <label class="mb-1">
+                               
+                              <h6 class="mb-0 text-sm">Ciudad</h6>
+                            </label>
+                            <input
+                              type="text"
+                              name="ciudad"
+                              class="form-control"
+                              placeholder="ciudad ?"
+                              value="{{dataUser.ciudad}}"
+                              required
+                              maxlength="80"
+                              minlength="4"
+                            />
+                          </div>
+                          
+                          <div class="col mrg">
+                            <label class="mb-1">
+                              <h6 class="mb-0 text-sm">Dirección</h6>
+                            </label>
+                            <input
+                              type="text"
+                              name="direccion"
+                              class="form-control"
+                              placeholder="Dirección ?"
+                              value="{{dataUser.direccion}}"
+                              required
+                              maxlength="80"
+                              minlength="4"
+                            />
+                          </div>
+                       
+
+                     
+                            <div class="col mrg">
+                            <label class="mb-1">
+                              <h6 class="mb-0 text-sm">Tipo de Colegio</h6>
+                            </label>
+
+                            <select
+                              class="form-control"
+                              name="colegio"
+                              required="true"
+                            >
+                              <option value="{{dataUser.colegio}}">
+                                {{dataUser.colegio}}
+                              </option>
+                              <option value="oficial">Oficial</option>
+                              <option value="privado">Privado</option>
+                              <option value="semiprivado">Semi-Privado</option>
+                            </select>
+
+                            <!--<input type="text" class="form-control" placeholder="First name">-->
+                          
+                          <div class="col mrg">
+                            <label class="mb-1">
+                              <h6 class="mb-0 text-sm">Tipo de Alumnos</h6>
+                            </label>
+                            <select
+                              class="form-control"
+                              name="alumnos"
+                              required="true"
+                            >
+                              <option value="{{dataUser.alumnos}}">
+                                {{dataUser.alumnos}}
+                              </option>
+                              <option value="femenino">Femenino</option>
+                              <option value="masculino">Masculino</option>
+                              <option value="mixto">Mixto</option>
+                            </select>
+                            <!--<input type="text" class="form-control" placeholder="Last name">-->
+                          </div>
+                        </div>
+
+                        <div class="row px-3 mb-2 mt-4">
+                          <div class="line"></div>
+                          <small class="or text-center"
+                            ><i class="fa fa-address-card-o"></i
+                          ></small>
+                          <div class="line"></div>
+                        </div>
+
+                        <div class="row mb-3 px-3 mt-3">
+                          <button
+                            type="submit"
+                            class="btn btn-success btn-blocktext-center"
+                          >
+                            <i class="fa fa-user"></i> Modificar datos de
+                            Usuario
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <div class="clearfix"></div>
+          </div>
+        </div>
+      </div>
+      <br />
+
+      <div class="row">
+        <div id="custom_notifications" class="custom-notifications dsp_none">
+          <ul
+            class="list-unstyled notifications clearfix"
+            data-tabbed_notifications="notif-group"
+          ></ul>
+          <div class="clearfix"></div>
+          <div id="notif-group" class="tabbed_notifications"></div>
+        </div>
+        <script src="{{url_for('static',filename='panel/js/bootstrap.min.js')}}"></script>
+        <script
+          type="text/javascript"
+          src="{{url_for('static',filename='panel/js/moment.min.js')}}"
+        ></script>
+        <script src="{{url_for('static',filename='panel/js/custom.js')}}"></script>
+        {% endblock %}
+      </div>
+    </div>
+  </div>
+</div>
