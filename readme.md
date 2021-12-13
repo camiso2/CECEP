@@ -16,7 +16,7 @@ Sistema para calcular deserción escolar de estudiantes activos en instituciones
 * Totalización de archivos disponibles.
 * actualización de datos de perfil de administrador.
 
-## <a href="https://www.youtube.com/watch?v=0ymLNJsQ8IQ">DEMO</a>
+## <a href="https://www.youtube.com/watch?v=0ymLNJsQ8IQ" target="_blank">DEMO</a>
 
 ## Tecnologías Usadas
 * back-end  : Phyton->flask
